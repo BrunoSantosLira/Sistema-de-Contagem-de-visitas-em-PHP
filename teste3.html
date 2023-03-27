@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TESTE 3</title>
+</head>
+<body onload="registerClick(4)">
+    
+    <h1>TESTE 3</h1>
+
+    <script>
+    function registerClick(siteId) {
+
+		var referrer = window.location.href;
+		console.log(referrer)
+		
+		// Enviar uma requisição GET para o arquivo PHP criado anteriormente
+		fetch(`http://localhost:8080/registro.php?site_id=${siteId}&referrer="${referrer}"`);
+	}
+    </script>
+
+</body>
+</html>
