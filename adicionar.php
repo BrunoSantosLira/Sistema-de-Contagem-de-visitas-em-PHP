@@ -23,6 +23,7 @@ function verificar($id){
 
 }
 
+
 ?>
 
 <!DOCTYPE html>
@@ -83,13 +84,12 @@ function verificar($id){
 
                 <div>
                     <p>Para adicionar um registro, primeiro você precisará colocar o seguinte código javascript no site que será contado:</p>
-                    <div>
+                    <div id="cod">
                     &lt;script&gt;<br>
                         function registerClick(siteId) {<br>
                             <br>
                             <p class="ml-5">
                             var referrer = window.location.href;<br>
-                            console.log(referrer)<br>
                             
                             fetch(`http://localhost:8080/registro.php?site_id=${siteId}&referrer="${referrer}"`);<br>
                             </p>

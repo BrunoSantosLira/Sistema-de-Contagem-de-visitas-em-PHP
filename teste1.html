@@ -14,10 +14,11 @@
     function registerClick(siteId) {
 
 		var referrer = window.location.href;
-		console.log(referrer)
+		console.log(referrer);
+        var email = "neositesbr@gmail.com"
 		
 		// Enviar uma requisição GET para o arquivo PHP criado anteriormente
-		fetch(`http://localhost:8080/registro.php?site_id=${siteId}&referrer="${referrer}"`);
+		fetch(`http://localhost:8080/registro.php?site_id=${siteId}&referrer="${referrer}"&email=${email}`);
 	}
     </script>
 

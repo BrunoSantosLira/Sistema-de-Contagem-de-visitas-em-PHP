@@ -8,9 +8,10 @@ if (isset($_GET['site_id'])) {
   $site_id = intval($_GET['site_id']);
   $referrer = $_GET['referrer'];
   $ip = $_SERVER['REMOTE_ADDR'];
+  $email = $_GET['email'];
 
   // Inserir um novo registro na tabela de clicks
-  $sql = "INSERT INTO clicks2 (referrer,ip, site_id, clicked_at ) VALUES ($referrer,'$ip', $site_id,NOW())";
+  $sql = "INSERT INTO clicks2 (referrer,ip, site_id,email, clicked_at ) VALUES ($referrer,'$ip', $site_id,'$email',NOW())";
   $conn->query($sql);
 }
 ?>

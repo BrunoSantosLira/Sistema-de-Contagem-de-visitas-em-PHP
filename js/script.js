@@ -1,8 +1,8 @@
-function excluir(id,referrer) {
+function excluir(id,referrer,email) {
     console.log(`Item ${id} excluido`);
     console.log(referrer)
 
-    fetch(`http://localhost:8080/excluir.php?site_id=${id}&referrer="${referrer}"`);
+    fetch(`http://localhost:8080/excluir.php?site_id=${id}&referrer="${referrer}"&email=${email}`);
     $('#myModal').modal('show')
 
 }

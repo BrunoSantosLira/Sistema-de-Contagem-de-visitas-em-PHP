@@ -3,7 +3,7 @@ date_default_timezone_set('America/Sao_Paulo');
 
 $conexao = new PDO('mysql:host=localhost; dbname=banco_de_dados', 'root', '');
 
-$query2 = "SELECT site_id,referrer, COUNT(*) AS acessos FROM clicks2 GROUP BY site_id;";
+$query2 = "SELECT site_id,email,referrer, COUNT(*) AS acessos FROM clicks2 GROUP BY site_id;";
 $stmt2= $conexao->prepare($query2);
 $stmt2->execute();
 
@@ -20,11 +20,8 @@ function verificar($id){
     }else{
         return false;
     }
-
 }
-
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -87,6 +84,7 @@ function verificar($id){
 							<tr>
 							<th scope="col">ID</th>
 							<th scope="col">Nome</th>
+							<th scope="col">Proprietário</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -95,6 +93,7 @@ function verificar($id){
                                     <tr>
                                     <th scope="row"><?php echo $dominio['site_id'] ?></th>
                                     <td><?php echo $dominio['referrer'] ?></td>
+									<td><?php echo $dominio['email'] ?></td>
                                     <td onclick="inserir(<?php echo $dominio['site_id'] ?>)" ><i class="fa-solid fa-upload fa-xl" style="color: #2b932a;"></i></td>
                                     </tr>
                                 <?php } ?>

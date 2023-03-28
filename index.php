@@ -2,7 +2,7 @@
 date_default_timezone_set('America/Sao_Paulo');
 $conexao = new PDO('mysql:host=localhost; dbname=banco_de_dados', 'root', '');
 
-$query2 = "SELECT site_id,referrer, COUNT(*) AS acessos FROM clicks2 GROUP BY site_id;";
+$query2 = "SELECT site_id,email,referrer, COUNT(*) AS acessos FROM clicks2 GROUP BY site_id;";
 $stmt2= $conexao->prepare($query2);
 $stmt2->execute();
 
@@ -74,7 +74,7 @@ function verificar($id){
 							<th scope="col">Nome</th>
 						</tr>
 						<tr>
-							<td><?php print_r($acessos[0]['acessos'] +1) ?></td>
+							<td><?php print_r($acessos[0]['acessos'] ) ?></td>
 				
 							<td>FLEXPOWER</td>
 						</tr>
@@ -88,6 +88,7 @@ function verificar($id){
 							<th scope="col">Status</th>
 							<th scope="col">ID</th>
 							<th scope="col">Nome</th>
+							<th scope="col" >Proprietário</th>
 							<th scope="col">Acessos</th>
 							</tr>
 						</thead>
@@ -106,11 +107,13 @@ function verificar($id){
 									<td>
 										<?php echo $dominio['referrer'] ?>
 									</td>
-
+									<td>
+										<?php echo $dominio['email'] ?>
+									</td>
 									<td>		
 									<?php
 									if(verificar($dominio['site_id']) == true ) {
-										echo $dominio['acessos'] +1;
+										echo $dominio['acessos'];
 									}else{
 										echo '---';
 									}
@@ -133,10 +136,11 @@ function verificar($id){
 	function registerClick(siteId) {
 
 		var referrer = window.location.href;
-		console.log(referrer)
+		console.log(referrer);
+		var email = 'brunomasterchif@gmail.com';
 		
 		// Enviar uma requisição GET para o arquivo PHP criado anteriormente
-		fetch(`http://localhost:8080/registro.php?site_id=${siteId}&referrer="${referrer}"`);
+		fetch(`http://localhost:8080/registro.php?site_id=${siteId}&referrer="${referrer}"&email=${email}`);
 	}
 	</script>
 	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
