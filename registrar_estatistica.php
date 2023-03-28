@@ -48,6 +48,8 @@ $result = $stmt2->fetchAll(\PDO::FETCH_ASSOC);
 
 foreach($result as $key => $estatistica){
     $mail = new PHPMailer(true);
+    $prop = $estatistica['proprietario'];
+    $visitas = $estatistica['visitantes'];
 
         try {
             //Server settings
@@ -77,8 +79,12 @@ foreach($result as $key => $estatistica){
 
             //Content
             $mail->isHTML(true);                                  //Set email format to HTML
-            $mail->Subject = 'oláaa';
-            $mail->Body    = 'Boa noite';
+            $mail->Subject = "Estátistica de visitas[$data]";
+            $mail->Body    = "Olá, essas são suas estátisticas:<br>
+            Data: $data <br>
+            Proprietário: $prop <br>
+            Visitantes: $visitas <br>
+            ";
             $mail->AltBody = 'Por favor, utilize um client que tenha suporte a HTML para ver o restante do conteúdo.';
 
             $mail->send();
