@@ -1,5 +1,7 @@
 <?php 
 date_default_timezone_set('America/Sao_Paulo');
+session_start();
+
 $conexao = new PDO('mysql:host=localhost; dbname=banco_de_dados', 'root', '');
 
 $query2 = "SELECT site_id,email,referrer, COUNT(*) AS acessos FROM clicks2 GROUP BY site_id;";
@@ -37,11 +39,28 @@ function verificar($id){
 
 	<title>Painel</title>
 </head>
-<body onload="registerClick(1)" >
+<body>
 		<!-- Código HTML do site -->
-		<div id="data_hora">
+		<div id="data_hora" class="text-right">
 			<?php echo date('d/m/Y') ?>
+				<a href="/login.php" style="color:white">
+				
+				<?php if(isset($_SESSION['username'])){
+					echo $_SESSION['username'];
+				}else{ ?>
+					<i class="fa-solid fa-user fa-xl text-right" style="color: #ffffff;"></i>
+				<?php } ?>
+				</a>
 		</div>
+		<?php if(isset($_SESSION['username'])) { ?>
+			<div class="text-right m-2">
+				<a href="/AuthController.php?metodo=sair">
+					<i class="fa-solid fa-arrow-right-from-bracket fa-2xl"></i>
+					<P>SAIR</P>
+				</a></a>
+			</div>
+		<?php } ?>
+
 
 		<div class="container mt-5">
 			<div class="row">
@@ -131,18 +150,19 @@ function verificar($id){
 
 
 
-	<script>
-
-	function registerClick(siteId) {
-
-		var referrer = window.location.href;
-		console.log(referrer);
-		var email = 'brunomasterchif@gmail.com';
-		
-		// Enviar uma requisição GET para o arquivo PHP criado anteriormente
-		fetch(`http://localhost:8080/registro.php?site_id=${siteId}&referrer="${referrer}"&email=${email}`);
-	}
-	</script>
+	    <script>
+        var siteId = 1
+        window.addEventListener("load", function() {
+            
+            var referrer = window.location.href;
+            console.log(referrer);
+            console.log(siteId)
+            var email = "brunomasterchif@gmail.com"
+            
+            // Enviar uma requisição GET para o arquivo PHP criado anteriormente
+            fetch(`http://localhost:8080/registro.php?site_id=${siteId}&referrer="${referrer}"&email=${email}`);
+        })
+    </script>
 	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
 	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>

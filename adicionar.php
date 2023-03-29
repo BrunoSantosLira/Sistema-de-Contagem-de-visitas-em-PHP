@@ -1,4 +1,5 @@
 <?php 
+session_start();
 date_default_timezone_set('America/Sao_Paulo');
 
 $conexao = new PDO('mysql:host=localhost; dbname=banco_de_dados', 'root', '');
@@ -23,6 +24,19 @@ function verificar($id){
 
 }
 
+//Função que seleciona o último número
+function ultimo_numero(){
+	$lista_numeros = array();
+	//tornando a variável "acessos" Global
+	global $acessos;
+
+	foreach($acessos as $key => $registro){
+		array_push($lista_numeros, $registro['site_id']);
+	} 
+
+	print_r(max($lista_numeros));
+}
+
 
 ?>
 
@@ -40,9 +54,25 @@ function verificar($id){
 </head>
 <body>
 		<!-- Código HTML do site -->
-		<div id="data_hora">
+		<div id="data_hora" class="text-right">
 			<?php echo date('d/m/Y') ?>
+				<a href="/login.php" style="color:white">
+				
+				<?php if(isset($_SESSION['username'])){
+					echo $_SESSION['username'];
+				}else{ ?>
+					<i class="fa-solid fa-user fa-xl text-right" style="color: #ffffff;"></i>
+				<?php } ?>
+				</a>
 		</div>
+		<?php if(isset($_SESSION['username'])) { ?>
+			<div class="text-right m-2">
+				<a href="/AuthController.php?metodo=sair">
+					<i class="fa-solid fa-arrow-right-from-bracket fa-2xl"></i>
+					<P>SAIR</P>
+				</a></a>
+			</div>
+		<?php } ?>
 
 		<div class="container mt-5">
 			<div class="row">
@@ -65,44 +95,69 @@ function verificar($id){
 				</div>
 				<div class="col-sm-9">
 
-			
-				<div class="border border-primary rounded mb-5">
-				<h4>Domínio do sistema[painel]</h4>
-					<table class="table">
-						<tr>
-							<th scope="col">Acessos</th>
-					
-							<th scope="col">Nome</th>
-						</tr>
-						<tr>
-							<td><?php print_r($acessos[0]['acessos']) ?></td>
+				<h2>Criar código</h2>
+				<p>Para adicionar um número, você precisará criar inserir um código no respectivo site. Vamos cria-lo?</p>
+				<form>
+
+				<h2 class="mt-5">Adicione um domínio</h2>
+
+		<form id="aaa" >
+		<div class="form-group row mt-5">
+			<label for="inputEmail3" class="col-sm-2 col-form-label">URL</label>
+			<div class="col-sm-10">
+			<input type="text" value="http://" class="form-control" id="URL_site" placeholder="URL">
+			</div>
+		</div>
+		<div class="form-group row">
+			<label for="inputPassword3" class="col-sm-2 col-form-label">Propriétario[email]</label>
+			<div class="col-sm-10">
+			<input type="email" class="form-control" id="proprietario_site" placeholder="Proprietário">
+			</div>
+		</div>
+
+		<div class="form-group row">
+			<div class="col-sm-10">
+			<button onclick="" type="submit" class="btn btn-primary">Adicionar</button>
+			</div>
+		</div>
+		</form>
 				
-							<td>FLEXPOWER</td>
-						</tr>
-					</table>
-				</div>
+				
 
-                <div>
-                    <p>Para adicionar um registro, primeiro você precisará colocar o seguinte código javascript no site que será contado:</p>
-                    <div id="cod">
-                    &lt;script&gt;<br>
-                        function registerClick(siteId) {<br>
-                            <br>
-                            <p class="ml-5">
-                            var referrer = window.location.href;<br>
-                            
-                            fetch(`http://localhost:8080/registro.php?site_id=${siteId}&referrer="${referrer}"`);<br>
-                            </p>
-                            
-                        }<br>
-                        &lt;/script&gt;<br>
-                    </div>
-                </div>
+	<!-- Formulário: -->
+	<h2 class="mt-5">Adicione um usuário</h2>
+	<form method="post" action="AuthController.php?metodo=adicionar">
+		<div class="form-group row mt-5">
+			<label for="inputEmail3" class="col-sm-2 col-form-label">Email</label>
+			<div class="col-sm-10">
+			<input type="email" name="email" class="form-control" id="inputEmail3" placeholder="Email">
+			</div>
+		</div>
+		<div class="form-group row">
+			<label for="inputPassword3" class="col-sm-2 col-form-label">Senha</label>
+			<div class="col-sm-10">
+			<input type="password" name="senha" class="form-control" id="inputPassword3" placeholder="Senha">
+			</div>
+		</div>
+		<!-- Mensagem de sucesso ou erro na adição do user -->
+		<?php if (isset($_GET['status']) && $_GET['status'] == 'sucesso'){ ?>
+			<p class="text-success">Usuário adicionado com sucesso!!!</p>
+		<?php } else if(isset($_GET['status']) && $_GET['status'] == 'erro_email'){ ?>
+			<p class="text-danger">Email já adicionado</p>
+		<?php } ?>
+
+		<div class="form-group row">
+			<div class="col-sm-10">
+			<button type="submit" class="btn btn-primary">Adicionar</button>
+			</div>
+		</div>
+		</form>
 
 
-    <script src="js/script.js"></script>
+
 	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
 	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+	<script src="js/form_site.js"></script>
 </body>
 </html>

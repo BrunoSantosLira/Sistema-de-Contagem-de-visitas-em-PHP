@@ -1,4 +1,5 @@
 <?php 
+session_start();
 date_default_timezone_set('America/Sao_Paulo');
 
 $conexao = new PDO('mysql:host=localhost; dbname=banco_de_dados', 'root', '');
@@ -40,9 +41,25 @@ function verificar($id){
 </head>
 <body>
 		<!-- Código HTML do site -->
-		<div id="data_hora">
-            <?php echo date('d/m/Y') ?>
+		<div id="data_hora" class="text-right">
+			<?php echo date('d/m/Y') ?>
+				<a href="/login.php" style="color:white">
+				
+				<?php if(isset($_SESSION['username'])){
+					echo $_SESSION['username'];
+				}else{ ?>
+					<i class="fa-solid fa-user fa-xl text-right" style="color: #ffffff;"></i>
+				<?php } ?>
+				</a>
 		</div>
+		<?php if(isset($_SESSION['username'])) { ?>
+			<div class="text-right m-2">
+				<a href="/AuthController.php?metodo=sair">
+					<i class="fa-solid fa-arrow-right-from-bracket fa-2xl"></i>
+					<P>SAIR</P>
+				</a></a>
+			</div>
+		<?php } ?>
 
 		<div class="container mt-5">
 			<div class="row">
@@ -64,23 +81,6 @@ function verificar($id){
 					</ul>
 				</div>
 				<div class="col-sm-9">
-
-			
-				<div class="border border-primary rounded mb-5">
-				<h4>Domínio do sistema[painel]</h4>
-					<table class="table">
-						<tr>
-							<th scope="col">Acessos</th>
-					
-							<th scope="col">Nome</th>
-						</tr>
-						<tr>
-							<td><?php print_r($acessos[0]['acessos']) ?></td>
-				
-							<td>FLEXPOWER</td>
-						</tr>
-					</table>
-				</div>
 
 				<table class="table">
 					<h4>Domínios ativos registrados<i class="fa-solid fa-circle" style="color: #0aff0e;"></i></h4>

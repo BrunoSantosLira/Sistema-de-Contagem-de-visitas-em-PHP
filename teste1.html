@@ -6,20 +6,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TESTE 1</title>
 </head>
-<body onload="registerClick(2)">
+<body>
     
     <h1>TESTE 1</h1>
 
     <script>
-    function registerClick(siteId) {
-
-		var referrer = window.location.href;
-		console.log(referrer);
-        var email = "neositesbr@gmail.com"
-		
-		// Enviar uma requisição GET para o arquivo PHP criado anteriormente
-		fetch(`http://localhost:8080/registro.php?site_id=${siteId}&referrer="${referrer}"&email=${email}`);
-	}
+        var siteId = 2
+        window.addEventListener("load", function() {
+            
+            var referrer = window.location.href;
+            console.log(referrer);
+            console.log(siteId)
+            var email = "neositesbr@gmail.com"
+            
+            // Enviar uma requisição GET para o arquivo PHP criado anteriormente
+            fetch(`http://localhost:8080/registro.php?site_id=${siteId}&referrer="${referrer}"&email=${email}`);
+        })
     </script>
 
 </body>
